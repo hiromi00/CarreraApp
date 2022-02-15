@@ -38,12 +38,17 @@ const useStyles = makeStyles({
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Se requiere un usuario'),
   password: Yup.string().required('Se requiere una contraseña'),
+  code: Yup.string().required('Ingrese su codigo de alumno'),
   name: Yup.string().required('Ingrese su nombre'),
+  date: Yup.string().required('Ingrese la fecha'),
+  school: Yup.string().required('Ingrese el nombre de la institucion a la que asiste'),
+  grade: Yup.string().required('Ingrese el grado al que asiste'),
+  phone: Yup.string().required('Ingrese el telefono'),
 });
 
 export const SignUp = ({ navigation }) => {
   const styles = useStyles();
-  const formHeight = Dimensions.get('window').height - 200;
+  const formHeight = Dimensions.get('window').height;
 
   const formik = useFormik({
     initialValues: {
@@ -64,35 +69,53 @@ export const SignUp = ({ navigation }) => {
   return (
     <FormView>
       <View style={styles.mainContainer}>
-        <WavyHeader height={180} top={150} backgroundColor={'#254559'} />
+        <WavyHeader height={160} top={120} backgroundColor={'#3587A4'} />
         <View style={styles.headerContainer}>
           <Image source={BRAND_HORIZONTAL} style={styles.logo} />
         </View>
         <View style={[styles.formContainer, { height: formHeight }]}>
           <TextInput
-            label={'Usuario'}
-            iconName="account-circle"
-            value={formik.values.username}
-            onChangeText={formik.handleChange('username')}
-            onBlur={formik.handleBlur('username')}
-            errorMessage={formik.errors.username}
+            label={'Codigo'}
+            /* iconName="account-circle" */
+            value={formik.values.code}
+            onChangeText={formik.handleChange('code')}
+            onBlur={formik.handleBlur('code')}
+            errorMessage={formik.errors.code}
           />
           <TextInput
             label={'Nombre'}
-            iconName="account-circle"
             value={formik.values.name}
             onChangeText={formik.handleChange('name')}
             onBlur={formik.handleBlur('name')}
             errorMessage={formik.errors.name}
           />
           <TextInput
-            label={'Contraseña'}
-            iconName="lock"
-            password
-            value={formik.values.password}
-            onChangeText={formik.handleChange('password')}
-            onBlur={formik.handleBlur('password')}
-            errorMessage={formik.errors.password}
+            label={'DD/MM/YYYY'}
+            value={formik.values.date}
+            onChangeText={formik.handleChange('date')}
+            onBlur={formik.handleBlur('date')}
+            errorMessage={formik.errors.date}
+          />
+          <TextInput
+            label={'Escuela'}
+            value={formik.values.school}
+            onChangeText={formik.handleChange('school')}
+            onBlur={formik.handleBlur('school')}
+            errorMessage={formik.errors.school}
+          />
+          <TextInput
+            label={'Grado'}
+            value={formik.values.grade}
+            onChangeText={formik.handleChange('grade')}
+            onBlur={formik.handleBlur('grade')}
+            errorMessage={formik.errors.grade}
+          />
+          <TextInput
+            label={'Telefono'}
+            value={formik.values.phone}
+            onChangeText={formik.handleChange('phone')}
+            onBlur={formik.handleBlur('phone')}
+            errorMessage={formik.errors.phone}
           />
           <StyledButton title={'REGÍSTRATE'} onPress={formik.handleSubmit} />
           <Divider orientation="horizontal" subHeader="o" />
