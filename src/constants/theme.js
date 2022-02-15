@@ -5,8 +5,8 @@
 
 export const theme = {
   colors: {
-    primary: '#F24182',
-    secondary: '#254559',
+    primary: 'red',
+    secondary: 'green',
     main: {
       pink: '#F24182',
       blue: '#05A696',

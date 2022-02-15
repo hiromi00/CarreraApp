@@ -38,6 +38,7 @@ const useStyles = makeStyles({
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Se requiere un usuario'),
   password: Yup.string().required('Se requiere una contraseña'),
+  name: Yup.string().required('Ingrese su nombre'),
 });
 
 export const SignUp = ({ navigation }) => {
@@ -48,6 +49,7 @@ export const SignUp = ({ navigation }) => {
     initialValues: {
       username: '',
       password: '',
+      name: '',
     },
     validationSchema: loginSchema,
     onSubmit: (values) => {
@@ -74,6 +76,14 @@ export const SignUp = ({ navigation }) => {
             onChangeText={formik.handleChange('username')}
             onBlur={formik.handleBlur('username')}
             errorMessage={formik.errors.username}
+          />
+          <TextInput
+            label={'Nombre'}
+            iconName="account-circle"
+            value={formik.values.name}
+            onChangeText={formik.handleChange('name')}
+            onBlur={formik.handleBlur('name')}
+            errorMessage={formik.errors.name}
           />
           <TextInput
             label={'Contraseña'}
