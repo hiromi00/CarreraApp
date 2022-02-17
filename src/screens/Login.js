@@ -42,7 +42,7 @@ const loginSchema = Yup.object().shape({
 
 export const Login = ({ navigation }) => {
   const styles = useStyles();
-  const formHeight = Dimensions.get('window').height - 400;
+  const formHeight = Dimensions.get('window').height - 300;
   const { theme } = useTheme();
 
   const formik = useFormik({

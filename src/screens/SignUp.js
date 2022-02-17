@@ -43,7 +43,7 @@ const loginSchema = Yup.object().shape({
   date: Yup.string().required('Ingrese la fecha'),
   school: Yup.string().required('Ingrese el nombre de la institucion a la que asiste'),
   grade: Yup.string().required('Ingrese el grado al que asiste'),
-  phone: Yup.string().required('Ingrese el telefono'),
+  phone: Yup.number().required('Ingrese el telefono'),
 });
 
 export const SignUp = ({ navigation }) => {
@@ -112,15 +112,16 @@ export const SignUp = ({ navigation }) => {
           />
           <TextInput
             label={'Telefono'}
+            keyboardType='numeric'
             value={formik.values.phone}
             onChangeText={formik.handleChange('phone')}
             onBlur={formik.handleBlur('phone')}
             errorMessage={formik.errors.phone}
           />
-          <StyledButton title={'REGÍSTRATE'} onPress={formik.handleSubmit} />
+          <StyledButton title={'ACEPTAR'} onPress={formik.handleSubmit} />
           <Divider orientation="horizontal" subHeader="o" />
           <StyledButton
-            title={'INICIAR SESIÓN'}
+            title={'VOLVER'}
             type="outline"
             onPress={navigateLogin}
           />
