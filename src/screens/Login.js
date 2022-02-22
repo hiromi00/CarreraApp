@@ -9,7 +9,7 @@ import { TextInput } from 'app/components/TextInput';
 import { useFormik } from 'formik';
 //import * as axios from 'axios';
 import * as Yup from 'yup';
-const axios = require('axios');
+import { loginRequest } from 'app/services/Connection';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -55,16 +55,7 @@ export const Login = ({ navigation }) => {
     validationSchema: loginSchema,
     onSubmit: (values) => {
       console.log(values);
-      const xd = axios.get(`https://marvelous-valley.000webhostapp.com/temp.php?login=${values.username}&pass=${values.password}`).then((response) => {console.log(response)});
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(xhttp.responseText);
-        }
-      };
-      xhttp.open("GET", `https://marvelous-valley.000webhostapp.com/temp.php?login=${values.username}&pass=${values.password}`, true);
-      console.log(`https://marvelous-valley.000webhostapp.com/temp.php?login=${values.username}&pass=${values.password}`);
-      xhttp.send();
+      loginRequest(values).then((response) => {console.log(response.data)});
     },
   });
 
