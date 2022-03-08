@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Dimensions } from 'react-native';
+import { Image, View, Dimensions, Alert } from 'react-native';
 import { BRAND } from 'app/assets/images';
 import { Divider, makeStyles, useTheme } from 'react-native-elements';
 import { FormView } from 'app/layouts/FormView';
@@ -55,7 +55,16 @@ export const Login = ({ navigation }) => {
     validationSchema: loginSchema,
     onSubmit: (values) => {
       console.log(values);
-      loginRequest(values).then((response) => {console.log(response.data)});
+      loginRequest(values)
+      .then((response) => {
+        if(response.data === 1){
+          Alert.alert('Echele!!!');
+        } else if (response.data === 2){
+          Alert.alert('Password invalida');
+        } else {
+          Alert.alert('Registrese. Asi nomas...');
+        }
+      });
     },
   });
 
