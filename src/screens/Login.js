@@ -59,6 +59,7 @@ export const Login = ({ navigation }) => {
       .then((response) => {
         if(response.data === 1){
           Alert.alert('Echele!!!');
+          navigateHome();
         } else if (response.data === 2){
           Alert.alert('Password invalida');
         } else {
@@ -70,6 +71,9 @@ export const Login = ({ navigation }) => {
 
   const navigateSignUp = () => {
     navigation.navigate('SignUp');
+  };
+  const navigateHome = () => {
+    navigation.navigate('Home');
   };
 
   return (

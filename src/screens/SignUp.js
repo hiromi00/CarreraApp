@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Dimensions } from 'react-native';
+import { Image, View, Dimensions, Alert } from 'react-native';
 import { BRAND_HORIZONTAL } from 'app/assets/images';
 import { Divider, makeStyles } from 'react-native-elements';
 import { FormView } from 'app/layouts/FormView';
@@ -8,6 +8,7 @@ import { StyledButton } from 'app/components/StyledButton';
 import { TextInput } from 'app/components/TextInput';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { signupRequest } from 'app/services/Connection';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -35,12 +36,12 @@ const useStyles = makeStyles({
   },
 });
 
-const loginSchema = Yup.object().shape({
-  username: Yup.string().required('Se requiere un usuario'),
+const signupSchema = Yup.object().shape({
+  //username: Yup.string().required('Se requiere un usuario'),
   password: Yup.string().required('Se requiere una contraseña'),
   code: Yup.string().required('Ingrese su codigo de alumno'),
   name: Yup.string().required('Ingrese su nombre'),
-  date: Yup.string().required('Ingrese la fecha'),
+  email: Yup.string().email().required('Ingrese su email'),
   school: Yup.string().required('Ingrese el nombre de la institucion a la que asiste'),
   grade: Yup.string().required('Ingrese el grado al que asiste'),
   phone: Yup.number().required('Ingrese el telefono'),
@@ -52,13 +53,28 @@ export const SignUp = ({ navigation }) => {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
+      /* username: '', */
       password: '',
       name: '',
+      code: '',
+      school: '',
+      grade: '',
+      email: ''
     },
-    validationSchema: loginSchema,
+    validationSchema: signupSchema,
     onSubmit: (values) => {
       console.log(values);
+      signupRequest(values)
+      .then((response) => {
+        if(response.data === 1){
+          Alert.alert('Echele!!!');
+          navigateLogin();
+        } else if (response.data === 0){
+          Alert.alert('Error en la peticion');
+        } else {
+          Alert.alert('Ese usuario ya existe');
+        }
+      });
     },
   });
 
@@ -90,11 +106,19 @@ export const SignUp = ({ navigation }) => {
             errorMessage={formik.errors.name}
           />
           <TextInput
-            label={'DD/MM/YYYY'}
-            value={formik.values.date}
-            onChangeText={formik.handleChange('date')}
-            onBlur={formik.handleBlur('date')}
-            errorMessage={formik.errors.date}
+            label={'Email'}
+            value={formik.values.email}
+            onChangeText={formik.handleChange('email')}
+            onBlur={formik.handleBlur('email')}
+            errorMessage={formik.errors.email}
+          />
+          <TextInput
+            label={'Password'}
+            password
+            value={formik.values.password}
+            onChangeText={formik.handleChange('password')}
+            onBlur={formik.handleBlur('password')}
+            errorMessage={formik.errors.password}
           />
           <TextInput
             label={'Escuela'}
