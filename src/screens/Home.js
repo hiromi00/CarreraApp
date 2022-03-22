@@ -1,3 +1,4 @@
+import { SidebarView } from 'app/components/DrawerContent';
 import { getCorredoresRequest } from 'app/services/Connection';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -41,8 +42,8 @@ export const Home = () => {
   }, []);
 
   return (
-    <View>
-      <Text style={styles.text}>{result}</Text>
-    </View>
+    <SidebarView>
+      <Text style={styles.userCount}>Usuarios registrados: {`${result}`}</Text>
+    </SidebarView>
   );
 };
