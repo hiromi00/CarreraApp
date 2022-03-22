@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 //import * as axios from 'axios';
 import * as Yup from 'yup';
 import { loginRequest } from 'app/services/Connection';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -53,14 +54,16 @@ export const Login = ({ navigation }) => {
       password: '',
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
       loginRequest(values)
-      .then((response) => {
-        if(response.data === 1){
+      .then(async ({ data }) => {
+        if(data.codigo === values.username){
           Alert.alert('Echele!!!');
           navigateHome();
-        } else if (response.data === 2){
+          const jsonValue = JSON.stringify(data);
+          await AsyncStorage.setItem('DatosU', jsonValue);
+        } else if (data === 2){
           Alert.alert('Password invalida');
         } else {
           Alert.alert('Registrese. Asi nomas...');

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import {
@@ -49,6 +50,7 @@ export const SidebarView = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [dimensions, setDimensions] = useState({ window, screen });
   const { theme } = useTheme();
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener(
@@ -60,19 +62,22 @@ export const SidebarView = ({ children }) => {
     return () => subscription?.remove();
   });
 
-  const user = {
-    name: 'Cesar Alejandro Ortiz Franco',
-    code: '218744465',
-    campus: 'CUCEI',
-  };
   const styles = useStyles();
 
   const toggleOpen = () => {
     setOpen(!open);
   };
 
+  const getData = async () => {
+    const value = await AsyncStorage.getItem('DatosU');
+    if(value !== null) {
+      setUser(JSON.parse(value));
+    }
+    console.log(value);
+  }
   useEffect(() => {
     // Get user service
+    getData();
   }, []);
 
   const DrawerContent = () => {
@@ -87,9 +92,9 @@ export const SidebarView = ({ children }) => {
             <Avatar.Accessory size={23} />
           </Avatar>
         </View>
-        <Text style={styles.tmenu}>{user.name}</Text>
-        <Text style={styles.tmenu}>{user.code}</Text>
-        <Text style={styles.tmenu}>{user.campus}</Text>
+        <Text style={styles.tmenu}>{user.nombre}</Text>
+        <Text style={styles.tmenu}>{user.codigo}</Text>
+        <Text style={styles.tmenu}>{user.centro}</Text>
         <Button title="Cerrar" onPress={toggleOpen} />
       </View>
     );
