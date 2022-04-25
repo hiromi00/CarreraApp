@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Image, View, Dimensions, Alert } from 'react-native';
 import { BRAND } from 'app/assets/images';
 import { Divider, makeStyles, useTheme } from 'react-native-elements';
@@ -11,6 +11,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { loginRequest } from 'app/services/Connection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { actionTypes, MarathonContext } from 'app/context';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -47,6 +48,7 @@ export const Login = ({ navigation }) => {
   const styles = useStyles();
   const formHeight = Dimensions.get('window').height - 300;
   const { theme } = useTheme();
+  const { dispatch } = useContext(MarathonContext);
 
   const formik = useFormik({
     initialValues: {
@@ -60,9 +62,11 @@ export const Login = ({ navigation }) => {
       .then(async ({ data }) => {
         if(data.codigo === values.username){
           Alert.alert('Echele!!!');
-          navigateHome();
           const jsonValue = JSON.stringify(data);
-          await AsyncStorage.setItem('DatosU', jsonValue);
+          await AsyncStorage.setItem('DatosU', jsonValue).then(() => {
+            console.log('si')
+            navigateHome();
+          });
         } else if (data === 2){
           Alert.alert('Password invalida');
         } else {
@@ -76,7 +80,7 @@ export const Login = ({ navigation }) => {
     navigation.navigate('SignUp');
   };
   const navigateHome = () => {
-    navigation.navigate('Home');
+    dispatch({ type: actionTypes.login });
   };
 
   return (

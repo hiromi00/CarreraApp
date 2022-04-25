@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const { default: axios } = require('axios');
 
 export const loginRequest = (req) => {
@@ -16,4 +18,8 @@ export const getCorredoresRequest = () => {
   return axios.get(
     `https://marvelous-valley.000webhostapp.com/getCorredores.php`,
   );
+};
+
+export const logout = async () => {
+  await AsyncStorage.removeItem('user');
 };

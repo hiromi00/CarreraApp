@@ -1,22 +1,14 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { Avatar, makeStyles } from 'react-native-elements';
+/* eslint-disable react-native/no-raw-text */
+import React, { useMemo } from 'react';
+import { ListItem, Avatar, makeStyles } from 'react-native-elements';
+import TouchableScale from 'react-native-touchable-scale'; // https://github.com/kohver/react-native-touchable-scale
+import LinearGradient from 'react-native-linear-gradient';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
-    marginHorizontal: 12,
-    height: 90,
-    backgroundColor: '#C0C0C0',
-    borderColor: '#F7F7F7',
     width: '90%',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginVertical: 6,
-    flexDirection: 'row',
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 5,
+    marginBottom: 12,
   },
   badge: {
     backgroundColor: theme.colors.grey3,
@@ -26,32 +18,55 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     borderRadius: 20,
   },
-  badgeText: {
+  subtitle: {
     fontSize: 20,
+    color: 'white',
   },
   text: {
-    marginLeft: 12,
     fontSize: 22,
+    color: 'white',
+    fontWeight: 'bold',
   },
 }));
 
-export const RunnerCard = ({ avatar, name, placement }) => {
+export const RunnerCard = ({ avatar, name, placement, velocidad }) => {
   const styles = useStyles();
+  const color = useMemo(() => {
+    switch (placement) {
+      case 1:
+        return ['#8C5E08', '#F2C029'];
+      case 2:
+        return ['#808080', '#D3D3D3'];
+      case 3:
+        return ['#733b03', '#CD7F32'];
+      default:
+        return ['#254559', '#ADD8E6'];
+    }
+  }, []);
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>{placement}</Text>
-      </View>
-      <Text style={styles.text}>14.7km</Text>
-      <Text style={styles.text}>{name}</Text>
-      <Avatar
-        rounded
-        source={{
-          uri: avatar,
-        }}
-        size="medium"
-      />
-    </View>
+    <ListItem
+      containerStyle={styles.mainContainer}
+      Component={TouchableScale}
+      friction={90} //
+      tension={100} // These props are passed to the parent component (here TouchableScale)
+      activeScale={0.95} //
+      linearGradientProps={{
+        colors: color,
+        start: { x: 1, y: 0 },
+        end: { x: 0.2, y: 0 },
+      }}
+      ViewComponent={LinearGradient} // Only if no expo
+    >
+      <Avatar rounded size="medium" source={{ uri: avatar }} />
+      <ListItem.Content>
+        <ListItem.Title style={styles.text}>
+          {placement + '° '}
+          {name}
+        </ListItem.Title>
+          <ListItem.Subtitle style={styles.subtitle}>{`${Number.parseFloat(velocidad).toFixed(2)} km/h`}</ListItem.Subtitle>
+      </ListItem.Content>
+      <ListItem.Chevron color="white" />
+    </ListItem>
   );
 };

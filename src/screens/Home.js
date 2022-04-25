@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { View,Image } from 'react-native';
 import {  makeStyles, Text } from 'react-native-elements';
 
-const runners = [
+/* const runners = [
   {
     name: 'Samuel',
     avatar: 'https://randomuser.me/api/portraits/men/36.jpg',
@@ -22,7 +22,7 @@ const runners = [
     avatar:
       'https://cdn.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg',
   },
-];
+]; */
 
 const useStyles = makeStyles((theme) => ({
   formView: {
@@ -49,10 +49,13 @@ const useStyles = makeStyles((theme) => ({
 export const Home = () => {
   const [count, setCount] = useState(0);
   const styles = useStyles();
+  const [runners, setRunners] = useState([]);
 
   const get = async () => {
     await getCorredoresRequest().then(({ data }) => {
-      setCount(data);
+      console.log('data-----------> ', data);
+      setCount(data.total);
+      setRunners(data.corredores);
     });
   };
 
@@ -70,11 +73,12 @@ export const Home = () => {
           <Text style={styles.userCount}>
             Usuarios registrados: {`${count}`}
           </Text>
-          {runners.map((item, index) => (
+          {runners?.map((item, index) => (
             <RunnerCard
               key={index}
-              avatar={item.avatar}
-              name={item.name}
+              avatar={item.foto}
+              name={item.nombre}
+              velocidad={item.velocidad}
               placement={index + 1}
             />
           ))}
