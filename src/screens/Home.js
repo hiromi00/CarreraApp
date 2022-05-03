@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { View,Image } from 'react-native';
 import {  makeStyles, Text } from 'react-native-elements';
 import { FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -40,10 +41,17 @@ export const Home = () => {
 
   const get = async () => {
     setRefreshing(true);
-    await getCorredoresRequest().then(({ data }) => {
+    const value = JSON.parse(await AsyncStorage.getItem('DatosU'));
+    await getCorredoresRequest({codigo: value.codigo}).then(({ data }) => {
       console.log('data-----------> ', data);
+      data.corredores = data.corredores.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+          t.codigo === value.codigo && t.nombre === value.nombre
+        ))
+      )
       setCount(data.total);
       setRunners(data.corredores);
+
     });
     setRefreshing(false);
   };
@@ -73,7 +81,7 @@ export const Home = () => {
         avatar={item.foto}
         name={item.nombre}
         velocidad={item.velocidad}
-        placement={index + 1} />
+        placement={parseInt(item.posicion)} />
       )}/>
       </View>
     </SidebarView>

@@ -14,9 +14,9 @@ export const signupRequest = (req) => {
   );
 };
 
-export const getCorredoresRequest = () => {
+export const getCorredoresRequest = (req) => {
   return axios.get(
-    `https://marvelous-valley.000webhostapp.com/getCorredores.php`,
+    `https://marvelous-valley.000webhostapp.com/getCorredores.php?codigo=${req.codigo}`,
   );
 };
 
