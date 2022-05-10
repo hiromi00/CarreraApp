@@ -7,6 +7,7 @@ import { Home } from './Home';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
 import { actionTypes, MarathonContext } from 'app/context';
+import MapComponent from 'app/components/Map';
 
 
 const { Navigator, Screen } = createNativeStackNavigator();
@@ -40,6 +41,11 @@ export const MainStack = () => {
               options={{ headerShown: false }}
               name="Home"
               component={Home}
+            />
+            <Screen
+              name="Map"
+              component={MapComponent}
+              options={{ headerShown: false }}
             />
           </>
         ) : (

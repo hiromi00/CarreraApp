@@ -5,7 +5,8 @@ import MenuDrawer from 'react-native-side-drawer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout } from 'app/services/Connection';
 import { actionTypes, MarathonContext } from 'app/context';
-
+import { location } from 'app/utils/permissions';
+import { useNavigation } from '@react-navigation/native';
 const window = Dimensions.get('window');
 const screen = Dimensions.get('screen');
 
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     marginRight: 10,
   },
+  button: {
+    marginVertical: 10,
+  },
 }));
 
 export const SidebarView = ({ children }) => {
@@ -54,6 +58,7 @@ export const SidebarView = ({ children }) => {
   const [dimensions, setDimensions] = useState({ window, screen });
   const [user, setUser] = useState({});
   const { dispatch } = useContext(MarathonContext);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener(
@@ -88,6 +93,10 @@ export const SidebarView = ({ children }) => {
     get();
   }, []);
 
+  const navigateMap = () => {
+    navigation.navigate('Map');
+  };
+
   const DrawerContent = () => {
     return (
       <View style={styles.drawer}>
@@ -107,6 +116,34 @@ export const SidebarView = ({ children }) => {
         <Text style={styles.tmenu}>{user.nombre}</Text>
         <Text style={styles.tmenu}>{user.codigo}</Text>
         <Text style={styles.tmenu}>{user.centro}</Text>
+        <Button
+          containerStyle={styles.button}
+          title="Mapa"
+          onPress={navigateMap}
+          raised
+          icon={
+            <Icon
+              containerStyle={styles.buttonIcon}
+              name="map"
+              type="material"
+              color="white"
+            />
+          }
+        />
+        <Button
+          containerStyle={styles.button}
+          title="Permisos"
+          onPress={location}
+          raised
+          icon={
+            <Icon
+              containerStyle={styles.buttonIcon}
+              name="location-on"
+              type="material"
+              color="white"
+            />
+          }
+        />
         <Button
           title="Cerrar sesión"
           onPress={handleLogout}
