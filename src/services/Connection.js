@@ -20,6 +20,10 @@ export const getCorredoresRequest = (req) => {
   );
 };
 
+export const userKm = (codigo) => {
+  return axios.get(`https://marvelous-valley.000webhostapp.com/avance.php?codigo=${codigo}`);
+};
+
 export const logout = async () => {
   await AsyncStorage.removeItem('user');
 };
