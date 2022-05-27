@@ -27,3 +27,9 @@ export const userKm = (codigo) => {
 export const logout = async () => {
   await AsyncStorage.removeItem('user');
 };
+
+export const save = (codigo, km, hours) => {
+  return axios.get(
+    `https://marvelous-valley.000webhostapp.com/guardar.php?codigo=${codigo}&kilometros=${km}&horas=${hours}`,
+  );
+};

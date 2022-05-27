@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginVertical: 10,
   },
+  content: {
+    height: '100%',
+  },
 }));
 
 export const SidebarView = ({ children }) => {

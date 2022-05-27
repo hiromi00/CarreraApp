@@ -64,7 +64,7 @@ export const RunnerCard = ({ avatar, name, placement, velocidad }) => {
           {placement + '° '}
           {name}
         </ListItem.Title>
-          <ListItem.Subtitle style={styles.subtitle}>{`velocidad: ${Number.parseFloat(velocidad).toFixed(2)}`}</ListItem.Subtitle>
+          <ListItem.Subtitle style={styles.subtitle}>{`velocidad: ${Number.parseFloat(velocidad).toFixed(2)} km/h`}</ListItem.Subtitle>
       </ListItem.Content>
     </ListItem>
   );
